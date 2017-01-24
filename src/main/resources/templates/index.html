@@ -6,7 +6,6 @@
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-
     <!-- Navigation -->
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
@@ -87,8 +86,8 @@
     <section id="contact" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Contact Liber Mundi</h2>
-                <p>Feel free to email us to provide some feedback on our platform, give us suggestions for new features, report issues, or just say hello!</p>
+                <h2 th:text="#{index.page.contactus}">Contact Liber Mundi</h2>
+                <p th:text="#{index.page.contactus.intro}">Feel free to email us to provide some feedback on our platform, give us suggestions for new features, report issues, or just say hello!</p>
                 <p><a href="mailto:theorcs@liber-mundi.org">theorcs@liber-mundi.org</a>
                 </p>
                 <ul class="list-inline banner-social-buttons">
@@ -99,7 +98,7 @@
                         <a href="https://github.com/kheldar666/theorcs" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
                     </li>
                     <li>
-                        <a href="https://www.liber-mundi.org" class="btn btn-default btn-lg"><i class="fa fa-compass fa-fw"></i> <span class="network-name">Website</span></a>
+                        <a href="https://www.liber-mundi.org" class="btn btn-default btn-lg"><i class="fa fa-compass fa-fw"></i> <span class="network-name" th:text="#{index.page.website}">Website</span></a>
                     </li>
                 </ul>
             </div>
