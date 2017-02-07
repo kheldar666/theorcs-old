@@ -2,28 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<p lang="en" th:fragment="footer">
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>Copyright &copy; <a href="http://www.liber-mundi.org">Liber Mundi</a> <span th:text="${currentYear}">2017</span></p>
-        </div>
-    </footer>
-
-    <!-- jQuery -->
-    <script th:src="@{/webjars/jquery/3.1.1-1/jquery.min.js}"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
-
-    <!-- Plugin JavaScript -->
-    <script th:src="@{js/jquery.easing.min.js}"></script>
-
-    <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA129kDPh8AaK3HBK6CHMDItYYKonYoSc8&amp;sensor=true"></script>
-
-    <!-- Theme JavaScript -->
-    <script th:src="@{js/grayscale.js}"></script>
-</p>
+	<div lang="en" th:fragment="footer">
+	    <!-- Footer -->
+	    <footer>
+	        <div class="container text-center">
+	            <p>Copyright &copy; <a href="http://www.liber-mundi.org">Liber Mundi</a> <span th:text="${currentYear}">2017</span></p>
+	        </div>
+	    </footer>
+	
+	    <!-- jQuery -->
+	    <script th:src="@{/webjars/jquery/3.1.1-1/jquery.min.js}"></script>
+	
+	    <!-- Bootstrap Core JavaScript -->
+	    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+	
+	    <!-- Plugin JavaScript -->
+	    <script th:src="@{/js/jquery.easing.min.js}"></script>
+	
+	    <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+	    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA129kDPh8AaK3HBK6CHMDItYYKonYoSc8&amp;sensor=true"></script>
+	
+	    <!-- Theme JavaScript -->
+	    <script th:src="@{/js/grayscale.js}"></script>
+	</div>
 </body>
 </html>
