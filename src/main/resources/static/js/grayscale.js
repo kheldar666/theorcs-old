@@ -20,8 +20,10 @@ $(document).ready(collapseNavbar);
 $(function() {
     $('a.page-scroll').bind('click', function(event) {
         var $anchor = $(this);
+        //Select just the anchor part to make it work with absolute URLs
+        var hashtag = '#' + $anchor.attr('href').split('#')[1];
         $('html, body').stop().animate({
-            scrollTop: $($anchor.attr('href')).offset().top
+            scrollTop: $(hashtag).offset().top
         }, 1500, 'easeInOutExpo');
         event.preventDefault();
     });
