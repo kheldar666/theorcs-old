@@ -5,9 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  
 @Controller("ManagerIndexController")
 public class IndexController {
-    @RequestMapping("/manager/login")
-    String index(Model model){
-        return "manager/login";
+    @RequestMapping(value = {
+    		"/manager/index", "/manager/"
+    })
+    String index(Model model) throws Exception {
+    	if (true) throw new Exception("test");
+        return "manager/index";
     }
     
 }
