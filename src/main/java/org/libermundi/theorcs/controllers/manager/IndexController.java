@@ -9,7 +9,7 @@ public class IndexController {
     		"/manager/index", "/manager/"
     })
     String index(Model model) throws Exception {
-    	if (true) throw new Exception("test");
+    	
         return "manager/index";
     }
     

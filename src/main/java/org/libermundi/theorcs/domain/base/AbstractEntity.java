@@ -1,8 +1,8 @@
-// [LICENCE-HEADER]
-//
 package org.libermundi.theorcs.domain.base;
 
 import java.io.Serializable;
+
+import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * Abstract entity with equals/hashCode is calculated based on Identifiable.getId()
  *
  */
+@MappedSuperclass
 public abstract class AbstractEntity<T extends Serializable> implements Identifiable<T> {
 	private static final long serialVersionUID = 757533802301350140L;
 

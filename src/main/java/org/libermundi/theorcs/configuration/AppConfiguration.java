@@ -25,4 +25,5 @@ public class AppConfiguration{
 		return r;
 		
 	}
+	
 }

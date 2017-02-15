@@ -15,33 +15,11 @@
  */
 package org.libermundi.theorcs.domain.base;
 
-import java.io.Serializable;
-
 /**
- * Interface marks class which can be persisted.
- * 
- * @param <I> type of primary key, it must be {@link Serializable}
- * 
+ * @author Martin Papy
+ *
  */
-
-public interface Identifiable<I> extends Serializable {
-    /**
-     * Property which represents identify.
-     */
-    static final String PROP_ID = "id";
-        
-    /**
-     * Get primary key.
-     * 
-     * @return primary key
-     */
-    I getId();
-
-    /**
-     * Set primary key.
-     * 
-     * @param id
-     *            primary key
-     */
-    void setId(I id);
+public interface Account {
+	public String getUsername();
+	public String getEmail();
 }
