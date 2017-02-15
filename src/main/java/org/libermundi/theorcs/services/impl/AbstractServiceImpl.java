@@ -124,7 +124,15 @@ public abstract class AbstractServiceImpl<T extends Identifiable<I>,I extends Se
 	public <S extends T> S save(S entity) {
 		return this.repository.save(entity);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.libermundi.theorcs.services.base.Service#save(java.lang.Iterable)
+	 */
+	@Override
+	public <S extends T> Iterable<S> save(Iterable<S> entities) {
+		return this.repository.save(entities);
+	}
 	
-	
-	
+
 }

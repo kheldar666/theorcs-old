@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Implementation of UserManager
  *
  */
-@Service(UserService.SERVICE_ID)
+@Service
 @Transactional(rollbackFor = Exception.class, propagation=Propagation.REQUIRED)
 public class UserServiceImpl extends AbstractServiceImpl<User,Long> implements UserService {
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -134,6 +134,68 @@ public class UserServiceImpl extends AbstractServiceImpl<User,Long> implements U
 		user.setUid(UUID.randomUUID().toString());
 		user.setActive(Boolean.FALSE);
 		return user;
+	}
+
+	@Override
+	public void initData() {
+		if(logger.isDebugEnabled()){
+			logger.debug("Initializing User DB");
+		}
+		User rootUser = createNew();
+			rootUser.setUsername("root");
+			rootUser.setPassword("root");
+			rootUser.setNickName("Super Admin");
+			rootUser.setFirstName("Super Administrator");
+			rootUser.setLastName("");
+			rootUser.setEmail("root@localhost");
+			rootUser.setDeleted(Boolean.FALSE);
+			rootUser.setActive(Boolean.TRUE);
+			rootUser.setAccountNonLocked(Boolean.TRUE);
+			rootUser.setAccountNonExpired(Boolean.TRUE);
+			rootUser.setCredentialsNonExpired(Boolean.TRUE);
+			save(rootUser);				
+		
+		User adminUser = createNew();
+			adminUser.setUsername("admin");
+			adminUser.setPassword("admin");
+			adminUser.setNickName("Admin");
+			adminUser.setFirstName("Administrator");
+			adminUser.setLastName("");
+			adminUser.setEmail("admin@localhost");
+			adminUser.setDeleted(Boolean.FALSE);
+			adminUser.setActive(Boolean.TRUE);
+			adminUser.setAccountNonLocked(Boolean.TRUE);
+			adminUser.setAccountNonExpired(Boolean.TRUE);
+			adminUser.setCredentialsNonExpired(Boolean.TRUE);
+			save(adminUser);
+		
+		User stdUser1 = createNew();
+			stdUser1.setUsername("user1");
+			stdUser1.setPassword("password");
+			stdUser1.setNickName("User 1");
+			stdUser1.setFirstName("John");
+			stdUser1.setLastName("Doe");
+			stdUser1.setEmail("user1@localhost");
+			stdUser1.setDeleted(Boolean.FALSE);
+			stdUser1.setActive(Boolean.TRUE);
+			stdUser1.setAccountNonLocked(Boolean.TRUE);
+			stdUser1.setAccountNonExpired(Boolean.TRUE);
+			stdUser1.setCredentialsNonExpired(Boolean.TRUE);
+			save(stdUser1);
+		
+		User stdUser2 = createNew();
+			stdUser2.setUsername("user2");
+			stdUser2.setPassword("password");
+			stdUser2.setNickName("User 2");
+			stdUser2.setFirstName("John");
+			stdUser2.setLastName("Smith");
+			stdUser2.setEmail("user2@localhost");
+			stdUser2.setDeleted(Boolean.FALSE);
+			stdUser2.setActive(Boolean.TRUE);
+			stdUser2.setAccountNonLocked(Boolean.TRUE);
+			stdUser2.setAccountNonExpired(Boolean.TRUE);
+			stdUser2.setCredentialsNonExpired(Boolean.TRUE);
+			save(stdUser2);	
 	}
 	
 }

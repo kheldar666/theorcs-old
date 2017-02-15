@@ -8,8 +8,7 @@ import org.libermundi.theorcs.services.base.Service;
  *
  */
 public interface UserService extends Service<User,Long> {
-	public static final String SERVICE_ID = "userManager";
-	
+
 	/**
 	 * Getter of User
 	 * @return User

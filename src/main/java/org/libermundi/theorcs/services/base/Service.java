@@ -83,5 +83,18 @@ public interface Service<T extends Identifiable<I>,I extends Serializable> {
 	 * @return the saved entity
 	 */
 	<S extends T> S save(S entity);
-
+	
+	/**
+	 * Saves all given entities.
+	 * 
+	 * @param entities
+	 * @return the saved entities
+	 * @throws IllegalArgumentException in case the given entity is {@literal null}.
+	 */
+	<S extends T> Iterable<S> save(Iterable<S> entities);
+	
+	/**
+	 * Initialize Data when the Application starts for the first time.
+	 */
+	void initData();
 }

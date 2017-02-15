@@ -30,8 +30,8 @@ public class Authority extends BasicEntity implements GrantedAuthority {
 	
 	private static final long serialVersionUID	= 2708517882549523163L;
 	private static final Logger logger = LoggerFactory.getLogger(Authority.class);	
-	private String _authority;
-	private Set<User> _users = new HashSet<>(0);
+	private String authority;
+	private Set<User> users = new HashSet<>(0);
 	
 	public Authority() {
 	}
@@ -47,25 +47,26 @@ public class Authority extends BasicEntity implements GrantedAuthority {
 	@Basic
 	@Column(name=Authority.PROP_AUTHORITY,length=30,nullable=false)
     public String getAuthority() {
-        return this._authority;
+        return this.authority;
     }
 
-    public void setAuthority(String authority) {
-        this._authority = authority;
+    public Authority setAuthority(String authority) {
+        this.authority = authority;
+        return this;
     }
     
     @ManyToMany(mappedBy="roles",fetch=FetchType.LAZY)
 	public Set<User> getUsers() {
-    	return _users;
+    	return users;
     }
     
     public void setUsers(Set<User> users) {
-    	_users = users;
+    	this.users = users;
     }
 
 	@Override
 	public String toString() {
-		return _authority;
+		return authority;
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public class Authority extends BasicEntity implements GrantedAuthority {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result
-				+ ((_authority == null) ? 0 : _authority.hashCode());
+				+ ((authority == null) ? 0 : authority.hashCode());
 		return result;
 	}
 
@@ -101,6 +102,6 @@ public class Authority extends BasicEntity implements GrantedAuthority {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(Object otherAuthority) {
-		return _authority.compareTo(((GrantedAuthority)otherAuthority).getAuthority());
+		return authority.compareTo(((GrantedAuthority)otherAuthority).getAuthority());
 	}
 }

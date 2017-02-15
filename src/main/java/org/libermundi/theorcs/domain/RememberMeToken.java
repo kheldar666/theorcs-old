@@ -18,67 +18,67 @@ public class RememberMeToken extends NumericIdEntity {
 	public static final String PROP_DATE="date";
 	
 	private static final long serialVersionUID = 4252909113245060846L;
-	private String _username;
-    private String _series;
-    private String _tokenValue;
-    private Date _date;
+	private String username;
+    private String series;
+    private String tokenValue;
+    private Date date;
     
     public RememberMeToken() {
     	//Public Default Constructor
     }
 
     public RememberMeToken(String username, String series, String tokenValue, Date date) {
-        this._username = username;
-        this._series = series;
-        this._tokenValue = tokenValue;
-        this._date = new Date(date.getTime());
+        this.username = username;
+        this.series = series;
+        this.tokenValue = tokenValue;
+        this.date = new Date(date.getTime());
     }
 
     @Basic
 	@Column(name=RememberMeToken.PROP_USERNAME,length=30,nullable=false)
     public String getUsername() {
-        return _username;
+        return username;
     }
 
     @Basic
 	@Column(name=RememberMeToken.PROP_SERIES,length=89,unique=true,nullable=false)
     public String getSeries() {
-        return _series;
+        return series;
     }
 
     @Basic
 	@Column(name=RememberMeToken.PROP_TOKENVALUE,length=89,nullable=false)
     public String getTokenValue() {
-        return _tokenValue;
+        return tokenValue;
     }
 
 
 	@Basic
 	@Column(name=RememberMeToken.PROP_DATE, nullable=false)
     public Date getDate() {
-        return _date;
+        return date;
     }
 
 	public void setUsername(String username) {
-		_username=username;
+		this.username=username;
 	}
 
 	public void setSeries(String series) {
-		_series=series;
+		this.series=series;
 	}
 
 	public void setTokenValue(String tokenValue) {
-		_tokenValue=tokenValue;
+		this.tokenValue=tokenValue;
 	}
 
 	public void setDate(Date date) {
-		_date=new Date(date.getTime());
+		this.date=new Date(date.getTime());
 	}
     
 	@Override
 	public String toString() {
-		return "RememberMeToken [_username=" + _username + ", _series="
-				+ _series + ", _tokenValue=" + _tokenValue + ", _date=" + _date
+		return "RememberMeToken [_username=" + username + ", _series="
+				+ series + ", _tokenValue=" + tokenValue + ", _date=" + date
 				+ "]";
 	}
 }
