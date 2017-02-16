@@ -185,7 +185,7 @@ public class User extends UidUserStatefulEntity implements UserDetails, Account,
     		fetch=FetchType.LAZY
     )    
     @JoinTable(name="tbl_user2authorities",joinColumns={@JoinColumn(name="userId")},inverseJoinColumns={@JoinColumn(name="authorityId")})
-    @LazyCollection(LazyCollectionOption.EXTRA)
+    @LazyCollection(LazyCollectionOption.FALSE)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	@XmlTransient
 	public Set<Authority> getRoles() {

@@ -6,6 +6,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
  
 @Configuration
