@@ -19,18 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.acls.AclPermissionEvaluator;
-import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.domain.GrantedAuthoritySid;
-import org.springframework.security.acls.domain.ObjectIdentityImpl;
-import org.springframework.security.acls.domain.PrincipalSid;
-import org.springframework.security.acls.model.MutableAcl;
-import org.springframework.security.acls.model.MutableAclService;
-import org.springframework.security.acls.model.NotFoundException;
-import org.springframework.security.acls.model.ObjectIdentity;
-import org.springframework.security.acls.model.Permission;
-import org.springframework.security.acls.model.Sid;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -60,14 +48,14 @@ public class SecurityServiceImpl extends AbstractServiceImpl<Authority,Long> imp
 	@Autowired
 	private RememberMeServices _rememberMeServices;
 	
-	@Autowired
-	private MutableAclService _aclServices;
+	//@Autowired
+	//private MutableAclService _aclServices;
 	
-	@Autowired
-	private AclPermissionEvaluator _aclPermissionEvaluator;
+	//@Autowired
+	//private AclPermissionEvaluator _aclPermissionEvaluator;
 	
-	@Autowired
-	private RoleHierarchy _roleHierarchy;
+	//@Autowired
+	//private RoleHierarchy _roleHierarchy;
 	
 	@Autowired
 	public SecurityServiceImpl(AuthorityRepository authorityRepository) {
@@ -189,19 +177,23 @@ public class SecurityServiceImpl extends AbstractServiceImpl<Authority,Long> imp
 	/* (non-Javadoc)
 	 * @see org.libermundi.theorcs.security.services.SecurityManager#hasReachableAuthority(java.util.Collection, org.springframework.security.core.GrantedAuthority)
 	 */
+	/*
 	@Override
 	public boolean hasReachableAuthority(
 			Collection<? extends GrantedAuthority> authorities, GrantedAuthority authority) {
 		return _roleHierarchy.getReachableGrantedAuthorities(authorities).contains(authority);
 	}
+	*/
+	
 	/* (non-Javadoc)
 	 * @see org.libermundi.theorcs.security.services.SecurityManager#hasReachableAuthority(org.libermundi.theorcs.security.model.User, org.springframework.security.core.GrantedAuthority)
 	 */
+	/*
 	@Override
 	public boolean hasReachableAuthority(User user, GrantedAuthority authority) {
 		return hasReachableAuthority(user.getAuthorities(),authority);
 	}
-
+	*/
 	/*
 	 * (non-Javadoc)
 	 * @see org.libermundi.theorcs.security.services.SecurityManager#switchUser(org.springframework.security.core.userdetails.UserDetails)
@@ -261,6 +253,7 @@ public class SecurityServiceImpl extends AbstractServiceImpl<Authority,Long> imp
 	 * (non-Javadoc)
 	 * @see org.libermundi.theorcs.security.services.SecurityManager#setAcl(java.lang.Object, java.lang.Object, org.springframework.security.acls.model.Permission, boolean)
 	 */
+	/*
 	@Override
 	public void setAcl(Object owner, Object to, Permission permission, boolean granting) {
 		ObjectIdentity oi = new ObjectIdentityImpl(to);
@@ -281,45 +274,52 @@ public class SecurityServiceImpl extends AbstractServiceImpl<Authority,Long> imp
 		acl.insertAce(acl.getEntries().size(), permission, sid, granting);
 		_aclServices.updateAcl(acl);
 	}	
-	
+	*/
 	/*
 	 * (non-Javadoc)
 	 * @see org.libermundi.theorcs.security.services.SecurityManager#grantAdminAcl(java.lang.Object, java.lang.Object)
 	 */
+	/*
 	@Override
 	public void grantAdminAcl(Object owner, Object to) {
 		this.setAcl(owner, to, BasePermission.ADMINISTRATION, Boolean.TRUE);
 		grantReadWriteAcl(owner,to);
 	}
-
+	*/
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.libermundi.theorcs.security.services.SecurityManager#grantReadWriteAcl(java.lang.Object, java.lang.Object)
 	 */
+	/*
 	@Override
 	public void grantReadWriteAcl(Object owner, Object to) {
 		this.setAcl(owner, to, BasePermission.WRITE, Boolean.TRUE);
 		grantReadAcl(owner, to);
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.libermundi.theorcs.security.services.SecurityManager#grantReadAcl(java.lang.Object, java.lang.Object)
 	 */
+	/*
 	@Override
 	public void grantReadAcl(Object owner, Object to) {
 		this.setAcl(owner, to, BasePermission.READ, Boolean.TRUE);
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.libermundi.theorcs.security.services.SecurityManager#hasPermission(java.lang.Object, org.springframework.security.acls.model.Permission[])
 	 */
+	/*
 	@Override
 	public boolean hasPermission(Object obj, Permission... permission) {
 		return _aclPermissionEvaluator.hasPermission(getCurrentAuthentication(), obj, permission);
 	}
+	*/
 	
 	/*
 	 * (non-Javadoc)

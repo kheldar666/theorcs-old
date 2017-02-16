@@ -1,7 +1,5 @@
 package org.libermundi.theorcs.services;
 
-import java.util.Collection;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,11 +8,7 @@ import org.libermundi.theorcs.domain.Authority;
 import org.libermundi.theorcs.domain.RememberMeToken;
 import org.libermundi.theorcs.domain.User;
 import org.libermundi.theorcs.services.base.Service;
-import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
-import org.springframework.security.acls.domain.BasePermission;
-import org.springframework.security.acls.model.Permission;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -80,7 +74,7 @@ public interface SecurityService extends Service<Authority,Long>, UserDetailsSer
 	 * 
 	 * @see RoleHierarchy#getReachableGrantedAuthorities(Collection)
 	 */
-	boolean hasReachableAuthority(Collection<? extends GrantedAuthority> authorities, GrantedAuthority authority);
+	//boolean hasReachableAuthority(Collection<? extends GrantedAuthority> authorities, GrantedAuthority authority);
 	
 	/**
 	 * @see SecurityService#hasReachableAuthority(Collection, GrantedAuthority) 
@@ -88,7 +82,7 @@ public interface SecurityService extends Service<Authority,Long>, UserDetailsSer
 	 * @param authority
 	 * @return
 	 */
-	boolean hasReachableAuthority(User user, GrantedAuthority authority);
+	//boolean hasReachableAuthority(User user, GrantedAuthority authority);
 	
 	/**
 	 * Return {@link UserDetails} for the "SYSTEM" user. Can be stored in the DB or Localy as a static resource
@@ -125,28 +119,28 @@ public interface SecurityService extends Service<Authority,Long>, UserDetailsSer
 	 * @param permission {@link BasePermission} applied
 	 * @param granting set to true when the right is granted, false when revoked 
 	 */
-	void setAcl(Object owner,Object to, Permission permission, boolean granting);
+	//void setAcl(Object owner,Object to, Permission permission, boolean granting);
 	
 	/**
 	 * Grant {@link BasePermission#ADMINISTRATION}, {@link BasePermission#WRITE} and {@link BasePermission#READ} to Owner
 	 * @param owner
 	 * @param to
 	 */
-	void grantAdminAcl(Object owner,Object to);
+	//void grantAdminAcl(Object owner,Object to);
 	
 	/**
 	 * Grant {@link BasePermission#WRITE} and {@link BasePermission#READ} to Owner
 	 * @param owner
 	 * @param to
 	 */
-	void grantReadWriteAcl(Object owner,Object to);
+	//void grantReadWriteAcl(Object owner,Object to);
 	
 	/**
 	 * Grant {@link BasePermission#READ} to Owner
 	 * @param owner
 	 * @param to
 	 */
-	void grantReadAcl(Object owner,Object to);
+	//void grantReadAcl(Object owner,Object to);
 	
 	/**
 	 * Check if the currently logged User as the given {@link Permission} on the {@link Object}
@@ -154,7 +148,7 @@ public interface SecurityService extends Service<Authority,Long>, UserDetailsSer
 	 * @param permission
 	 * @return true if User has.
 	 */
-	boolean hasPermission(Object obj, Permission... permission);
+	//boolean hasPermission(Object obj, Permission... permission);
 	
 	/**
 	 * Assign a Role to the User. The Role is supposed to exist in the Database.
