@@ -16,19 +16,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
  
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
 	private AuthenticationProvider authenticationProvider;
 	
 	@Autowired
-    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
-    }
- 
+	private RememberMeTokenRepository rememberMeTokenRepository;
+	
 	@Autowired
     public void configureAuthManager(AuthenticationManagerBuilder authenticationManagerBuilder){
         authenticationManagerBuilder.authenticationProvider(authenticationProvider);
@@ -39,11 +39,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests().antMatchers("/*","/vendors/**","/js/**","/images/**","/css/**","/h2-console/**").permitAll()
 	        .anyRequest().authenticated()
 	        .and()
-	        .formLogin().loginPage("/manager/login").permitAll()
+	        	.formLogin()
+	        		.successHandler(savedRequestAwareAuthenticationSuccessHandler())
+	        		.loginPage("/manager/login")
+	        		.failureUrl("/manager/login?error")
+	        		.permitAll()
 	        .and()
-	        .logout().permitAll();
+	        	.logout()
+	        		.logoutSuccessUrl("/?logout")
+	        		.permitAll();
 
-        
+        httpSecurity.rememberMe()
+        	.tokenRepository(persistentTokenRepository(rememberMeTokenRepository))
+        	.tokenValiditySeconds(1209600);
+       
         //TODO: Remove when going to Production !
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();
@@ -70,6 +79,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
 	    daoAuthenticationProvider.setUserDetailsService(userDetailsService);
 	    return daoAuthenticationProvider;
+	}
+	
+	@Bean
+	public SavedRequestAwareAuthenticationSuccessHandler
+                savedRequestAwareAuthenticationSuccessHandler() {
+
+               SavedRequestAwareAuthenticationSuccessHandler auth
+                    = new SavedRequestAwareAuthenticationSuccessHandler();
+		auth.setTargetUrlParameter("targetUrl");
+		return auth;
 	}
 	
 }
