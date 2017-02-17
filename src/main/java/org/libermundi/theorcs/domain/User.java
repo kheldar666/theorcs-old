@@ -149,7 +149,7 @@ public class User extends UidUserStatefulEntity implements UserDetails, Account,
 	public String getLastName() {
 		return lastName;
 	}
-
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name=User.PROP_GENDER,length=7,nullable=false)
 	public Gender getGender() {
