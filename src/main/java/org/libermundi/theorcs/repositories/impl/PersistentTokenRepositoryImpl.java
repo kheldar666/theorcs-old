@@ -32,6 +32,9 @@ public class PersistentTokenRepositoryImpl implements PersistentTokenRepository 
 		RememberMeToken token = rememberMeTokenRepository.findBySeries(series);
 		token.setDate(lastUsed);
 		token.setTokenValue(tokenValue);
+		if(logger.isDebugEnabled()) {
+			logger.debug("Updating RememberMeToken : " + token);
+		}
 		rememberMeTokenRepository.save(token);
 	}
 
@@ -43,6 +46,9 @@ public class PersistentTokenRepositoryImpl implements PersistentTokenRepository 
 	@Override
 	public void removeUserTokens(String username) {
 		Iterable<RememberMeToken> listToDelete = rememberMeTokenRepository.findAllByUsername(username);
+		if(logger.isDebugEnabled()) {
+			logger.debug("Deleting RememberMeToken : " + listToDelete);
+		}
 		rememberMeTokenRepository.delete(listToDelete);
 	}
 

@@ -11,9 +11,8 @@ import org.libermundi.theorcs.services.base.Service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface SecurityService extends Service<Authority,Long>, UserDetailsService {
+public interface SecurityService extends Service<Authority,Long> {
 		
 	/**
 	 * Getter of the User attached to the current Session

@@ -18,14 +18,12 @@ import org.libermundi.theorcs.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.web.authentication.switchuser.SwitchUserGrantedAuthority;
@@ -104,22 +102,6 @@ public class SecurityServiceImpl extends AbstractServiceImpl<Authority,Long> imp
 			return getCurrentUserDetails().getUsername();
 		}
 		return ANONYMOUS_USERDETAILS.getUsername();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
-	 */
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
-		if(logger.isInfoEnabled()) {
-			logger.info("loadUserByUsername({})", username);
-		}
-		User user = _userService.findByUsername(username.toLowerCase());
-		if (user == null) {
-			throw new UsernameNotFoundException("There is no User with login/username : " + username);
-		}
-		
-		return user;
 	}
 
 	/*
