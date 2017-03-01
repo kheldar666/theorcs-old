@@ -34,7 +34,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User,Long> implements U
 	public User getUser() {
 		User user = new User();
 		user.setUid(UUID.randomUUID().toString());
-		user.setActive(Boolean.FALSE);
+		user.setEnabled(Boolean.FALSE);
 		return user;
 	}
 	
@@ -132,7 +132,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User,Long> implements U
 	public User createNew() {
 		User user = new User();
 		user.setUid(UUID.randomUUID().toString());
-		user.setActive(Boolean.FALSE);
+		user.setEnabled(Boolean.FALSE);
 		return user;
 	}
 
@@ -149,7 +149,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User,Long> implements U
 			rootUser.setLastName("");
 			rootUser.setEmail("root@localhost");
 			rootUser.setDeleted(Boolean.FALSE);
-			rootUser.setActive(Boolean.TRUE);
+			rootUser.setEnabled(Boolean.TRUE);
 			rootUser.setAccountNonLocked(Boolean.TRUE);
 			rootUser.setAccountNonExpired(Boolean.TRUE);
 			rootUser.setCredentialsNonExpired(Boolean.TRUE);
@@ -163,7 +163,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User,Long> implements U
 			adminUser.setLastName("");
 			adminUser.setEmail("admin@localhost");
 			adminUser.setDeleted(Boolean.FALSE);
-			adminUser.setActive(Boolean.TRUE);
+			adminUser.setEnabled(Boolean.TRUE);
 			adminUser.setAccountNonLocked(Boolean.TRUE);
 			adminUser.setAccountNonExpired(Boolean.TRUE);
 			adminUser.setCredentialsNonExpired(Boolean.TRUE);
@@ -177,7 +177,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User,Long> implements U
 			stdUser1.setLastName("Doe");
 			stdUser1.setEmail("user1@localhost");
 			stdUser1.setDeleted(Boolean.FALSE);
-			stdUser1.setActive(Boolean.TRUE);
+			stdUser1.setEnabled(Boolean.TRUE);
 			stdUser1.setAccountNonLocked(Boolean.TRUE);
 			stdUser1.setAccountNonExpired(Boolean.TRUE);
 			stdUser1.setCredentialsNonExpired(Boolean.TRUE);
@@ -191,7 +191,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User,Long> implements U
 			stdUser2.setLastName("Smith");
 			stdUser2.setEmail("user2@localhost");
 			stdUser2.setDeleted(Boolean.FALSE);
-			stdUser2.setActive(Boolean.TRUE);
+			stdUser2.setEnabled(Boolean.TRUE);
 			stdUser2.setAccountNonLocked(Boolean.TRUE);
 			stdUser2.setAccountNonExpired(Boolean.TRUE);
 			stdUser2.setCredentialsNonExpired(Boolean.TRUE);

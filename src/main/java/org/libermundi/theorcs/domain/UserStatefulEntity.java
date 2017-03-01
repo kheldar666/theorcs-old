@@ -66,7 +66,7 @@ public class UserStatefulEntity extends StatefulEntity implements CreatedOrModif
     public String toString() {
         String className = getClass().getSimpleName();
         return String.format("%s{id: %s; active: %s; createdDate: %s; createdBy: %s; updatedDate: %s; modifiedBy: %s; hidden: %s}", 
-                        className, getId(), isActive(), getCreatedDate(), getCreatedBy(), getModifiedDate(), getModifiedBy(), isDeleted());
+                        className, getId(), isEnabled(), getCreatedDate(), getCreatedBy(), getModifiedDate(), getModifiedBy(), isDeleted());
     }
 
 }

@@ -33,6 +33,7 @@ import org.libermundi.theorcs.repositories.listeners.PasswordListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.security.SocialUserDetails;
 
 import com.google.common.collect.Sets;
 
@@ -45,7 +46,7 @@ import com.google.common.collect.Sets;
 @Table(name="tbl_users")
 @EntityListeners({PasswordListener.class})
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-public class User extends UidUserStatefulEntity implements UserDetails, Account, Labelable {
+public class User extends UidUserStatefulEntity implements UserDetails, SocialUserDetails, Account, Labelable {
 	public final static String PROP_AVATAR="avatar";
 	public final static String PROP_DESCRIPTION="description";
 	public final static String PROP_THUMBNAIL="thumbnail";
@@ -64,6 +65,10 @@ public class User extends UidUserStatefulEntity implements UserDetails, Account,
 	public final static String PROP_CREDENTIALS_NON_EXPIRED = "credentialsNonExpired";
 	public final static String PROP_ACCOUNT_NON_LOCKED = "accountNonLocked";
 	public final static String PROP_ACTIVATION_KEY = "activationKey";
+	
+	//User for Social Sign On
+	public final static String PROP_USERID="userId";
+	public final static String PROP_SOCIALSIGNINPROVIDER="socialSignInProvider";
 	
 	private static final long serialVersionUID = 984592116709403247L;
 
@@ -86,12 +91,31 @@ public class User extends UidUserStatefulEntity implements UserDetails, Account,
 	private boolean accountNonExpired;
 	private boolean credentialsNonExpired;
 	private boolean accountNonLocked;
+	private String userId;
+	private String socialSignInProvider;
 
 	@Override
 	@Basic
 	@Column(name=User.PROP_USERNAME,length=30,unique=true,nullable=false)
 	public String getUsername() {
 		return username;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.springframework.social.security.SocialUserDetails#getUserId()
+	 */
+	@Override
+	@Basic
+	@Column(name=User.PROP_USERID,length=30,unique=true,nullable=true)
+	public String getUserId() {
+		return userId;
+	}
+
+	@Basic
+	@Column(name=User.PROP_SOCIALSIGNINPROVIDER,length=30,unique=true,nullable=true)
+	public String getSocialSignInProvider() {
+		return socialSignInProvider;
 	}
 
 	@Override
@@ -173,12 +197,6 @@ public class User extends UidUserStatefulEntity implements UserDetails, Account,
 	public String getDescription() {
 		return description;
 	}	
-	
-	@Transient
-	public boolean isEnabled() {
-		// Comes from Spring Security... Redundant with isActive.
-		return isActive();
-	}
 
     @ManyToMany(
     		cascade={CascadeType.PERSIST,CascadeType.REFRESH},
@@ -300,13 +318,16 @@ public class User extends UidUserStatefulEntity implements UserDetails, Account,
 		this.password = password;
 	}
 
-	public void setEnabled(boolean enabled) {
-		// Comes from Spring Security... Redundant with isActive.
-		setActive(enabled);
-	}
-
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public void setSocialSignInProvider(String socialSignInProvider) {
+		this.socialSignInProvider = socialSignInProvider;
 	}
 
 	public void setRoles(Set<Authority> authorities) {
@@ -350,5 +371,4 @@ public class User extends UidUserStatefulEntity implements UserDetails, Account,
 	public String printLabel() {
 		return getFullName();
 	}
-
 }

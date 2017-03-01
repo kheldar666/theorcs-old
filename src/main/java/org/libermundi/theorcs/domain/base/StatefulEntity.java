@@ -17,32 +17,31 @@ import org.libermundi.theorcs.domain.listeners.TimestampListener;
  */
 @MappedSuperclass
 @EntityListeners(TimestampListener.class)
-public class StatefulEntity extends BasicEntity implements Activable, Timestampable {
+public class StatefulEntity extends BasicEntity implements Enabled, Timestampable {
     private static final long serialVersionUID = 1L;
     
-    private boolean _active = Boolean.TRUE;
+    private boolean _enabled = Boolean.TRUE;
     private Date _createdDate;
     private Date _modifiedDate;
 
     /*
-     * (non-Javadoc)
-     * @see org.libermundi.frostgrave.domain.base.Activable#isActive()
+     *     (non-Javadoc)
+     * @see org.libermundi.theorcs.domain.base.Enabled#isEnabled()
      */
-    
     @Override
-    @Column(name = Activable.PROP_ACTIVE)
-    public boolean isActive() {
-        return _active;
+    @Column(name = Enabled.PROP_ACTIVE)
+    public boolean isEnabled() {
+        return _enabled;
     }
-    
+
     /*
      * (non-Javadoc)
-     * @see org.libermundi.frostgrave.domain.base.Activable#setActive(boolean)
+     * @see org.libermundi.theorcs.domain.base.Enabled#setEnabled(boolean)
      */
     
     @Override
-    public void setActive(boolean active) {
-        _active = active;
+    public void setEnabled(boolean enabled) {
+        _enabled = enabled;
     }
     
     /*
@@ -97,6 +96,6 @@ public class StatefulEntity extends BasicEntity implements Activable, Timestampa
     public String toString() {
         String className = getClass().getSimpleName();
         return String.format("%s{id: %s; active: %s; createdDate: %s; updatedDate: %s; hidden: %s}", 
-                        className, getId(), isActive(), getCreatedDate(), getModifiedDate(), isDeleted());
+                        className, getId(), isEnabled(), getCreatedDate(), getModifiedDate(), isDeleted());
     }
 }

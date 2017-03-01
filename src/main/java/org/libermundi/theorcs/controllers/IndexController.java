@@ -10,6 +10,7 @@ public class IndexController {
     @RequestMapping(
     		value = {"/","/index"}
     )
+    
     String index(Model model){
     	model.addAttribute("currentYear", getThisYear());
         return "index";
