@@ -1,6 +1,9 @@
 package org.libermundi.theorcs.configuration;
+import javax.sql.DataSource;
+
 import org.libermundi.theorcs.repositories.RememberMeTokenRepository;
 import org.libermundi.theorcs.repositories.impl.PersistentTokenRepositoryImpl;
+import org.libermundi.theorcs.security.impl.DatabaseSocialConfigurer;
 import org.libermundi.theorcs.services.impl.SocialUserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.SecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -15,6 +21,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
@@ -27,7 +35,8 @@ import com.google.common.base.Strings;
  
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	private static final String REMEMBER_ME_KEY = "tAKiB9sM1pNQTUbQysGltvDBXyb6Jp";
+	@Value("${theorcs.security.rememberme.key}")
+	private String rememberMeKey;
 	
 	@Value("${spring.profiles.active}")
 	private String env;
@@ -56,8 +65,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/vendors/**","/js/**","/images/**","/css/**");
 	}
 
-
-
 	@Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 		logger.info("Configuring HttpSecurity");
@@ -67,10 +74,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    
         httpSecurity
         	.authorizeRequests()
-	        	.antMatchers("/*","/connect/**")
+        		.expressionHandler(securityExpressionHandler())
+	        	.antMatchers("/*","/connect/**","/h2-console/**")
 	        		.permitAll()
 	        	.anyRequest()
-	        		.authenticated()
+	        		.hasRole("USER")
 	         .and()
 	        	.formLogin()
 	        		.successHandler(savedRequestAwareAuthenticationSuccessHandler())
@@ -82,15 +90,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        		.logoutUrl("/manager/logout")
 	        		.deleteCookies("remember-me")
 	        		.deleteCookies("JSESSIONID")
-	        		.logoutSuccessUrl("/manager/index?logout")
+	        		.invalidateHttpSession(true)
+	  //      		.logoutSuccessUrl("/manager/index?logout")
 	        		.permitAll()
 	        .and()    		 
         		.rememberMe()
-					.key(REMEMBER_ME_KEY)
+					.key(rememberMeKey)
 		        	.rememberMeServices(rememberMeServices)
 					.tokenValiditySeconds(86400)
 			.and()
-				.apply(new SpringSocialConfigurer());
+				.apply(
+					new SpringSocialConfigurer()
+					.signupUrl("/manager/login")
+					.postLoginUrl("/manager/index")
+				);
         
         if (!Strings.isNullOrEmpty(env) && env.equals("dev")) {
         	logger.warn("****************************************************");
@@ -99,11 +112,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	httpSecurity
         		.csrf()
         			.disable();
-        	
-        	httpSecurity
-        		.authorizeRequests()
-		        	.antMatchers("/h2-console/**")
-		        		.permitAll();
         	
         	httpSecurity
         		.headers()
@@ -123,10 +131,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public static RememberMeServices persistentTokenBasedRememberMeServices(UserDetailsService userDetailsService, RememberMeTokenRepository rememberMeTokenRepository) {
-		logger.info("Creating RememberMeServices Bean");
+	public RememberMeServices persistentTokenBasedRememberMeServices(UserDetailsService userDetailsService, RememberMeTokenRepository rememberMeTokenRepository) {
+		logger.info("Creating RememberMeServices Bean with Key : " + rememberMeKey);
 		return new PersistentTokenBasedRememberMeServices(
-				REMEMBER_ME_KEY,
+				rememberMeKey,
 				userDetailsService,
 				new PersistentTokenRepositoryImpl(rememberMeTokenRepository)
 			);
@@ -137,6 +145,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		logger.info("Creating SavedRequestAwareAuthenticationSuccessHandler Bean");
 		SavedRequestAwareAuthenticationSuccessHandler auth = new SavedRequestAwareAuthenticationSuccessHandler();
 		auth.setTargetUrlParameter("targetUrl");
+		auth.setDefaultTargetUrl("/manager/index");
 		return auth;
 	}
 
@@ -154,4 +163,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new SocialUserDetailsServiceImpl(userDetailsService());
     }
 
+	@Bean
+	public DatabaseSocialConfigurer databaseSocialConfigurer(DataSource dataSource) {
+		return new DatabaseSocialConfigurer(dataSource);
+	}
+	
+	@Bean
+	public RoleHierarchy roleHierarchy() {
+		RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+	    roleHierarchy.setHierarchy("ROLE_ROOT > ROLE_ADMIN ROLE_ADMIN > ROLE_USER ROLE_USER > ROLE_ANONYMOUS");
+	    return roleHierarchy;
+	}
+	
+	private SecurityExpressionHandler<FilterInvocation> securityExpressionHandler() {
+	    DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
+	    defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
+	    return defaultWebSecurityExpressionHandler;
+	}
 }

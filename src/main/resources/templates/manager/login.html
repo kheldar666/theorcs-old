@@ -74,20 +74,18 @@
                 <p class="change_link">New to site?
                   <a href="#signup" class="to_register"> Create Account </a>
                 </p>
-
                 <div class="clearfix"></div>
 				<p>or</p>
-				<a class="btn btn-block btn-social btn-facebook" th:href="@{/connect/facebook}">
-					<i class="fa fa-facebook"></i>
-					Sign in with Facebook
-				</a>
-				
-                <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
-                </div>
               </div>
             </form>
+          </section>
+          <section>
+          	<form th:action="@{/connect/facebook}" method="post">
+          		<button class="btn btn-block btn-social btn-facebook">
+					<i class="fa fa-facebook"></i>
+					Sign in with Facebook
+				</button>
+			</form>
           </section>
         </div>
 
@@ -131,5 +129,12 @@
         </div>
       </div>
     </div>
+     <script type="text/javascript">
+    	/*<![CDATA[*/
+    		var fbButton = $("#fbButton1").click(function(){
+    			alert('toto');
+    		});
+    	/*]]>*/
+    </script>
   </body>
 </html>

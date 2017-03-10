@@ -23,7 +23,7 @@ public class CsrfAdvisor {
 		
 		if (!Strings.isNullOrEmpty(env) && env.equals("dev")) {
 			logger.warn("***********************************");
-			logger.warn("Application is in Dev Mode. Adding a fake CSRF Object !");
+			logger.warn("Application is in Dev Mode. Adding a fake CSRF Token !");
 			CsrfToken token = new DefaultCsrfToken("X-XSRF-TOKEN", "CSRF-Disabled", "CSRF-Disabled");
 			model.addAttribute("_csrf", token);
 			logger.warn("***********************************");
