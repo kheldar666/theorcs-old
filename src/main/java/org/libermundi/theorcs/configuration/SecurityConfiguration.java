@@ -28,6 +28,9 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
 
@@ -91,7 +94,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        		.deleteCookies("remember-me")
 	        		.deleteCookies("JSESSIONID")
 	        		.invalidateHttpSession(true)
-	  //      		.logoutSuccessUrl("/manager/index?logout")
 	        		.permitAll()
 	        .and()    		 
         		.rememberMe()
@@ -173,6 +175,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
 	    roleHierarchy.setHierarchy("ROLE_ROOT > ROLE_ADMIN ROLE_ADMIN > ROLE_USER ROLE_USER > ROLE_ANONYMOUS");
 	    return roleHierarchy;
+	}
+	
+	@Bean
+	public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator,UsersConnectionRepository connectionRepository) {
+		return new ProviderSignInUtils(connectionFactoryLocator, connectionRepository);
 	}
 	
 	private SecurityExpressionHandler<FilterInvocation> securityExpressionHandler() {
