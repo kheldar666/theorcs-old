@@ -6,21 +6,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.libermundi.theorcs.domain.SocialMediaService;
-import org.libermundi.theorcs.validation.PasswordsNotEmpty;
-import org.libermundi.theorcs.validation.PasswordsNotEqual;
+import org.libermundi.theorcs.validation.ValidPassword;
 
 /**
  * @author Petri Kainulainen
  */
-@PasswordsNotEmpty(
-        triggerFieldName = "signInProvider",
-        passwordFieldName = "password",
-        passwordVerificationFieldName = "passwordVerification"
-)
-@PasswordsNotEqual(
-        passwordFieldName = "password",
-        passwordVerificationFieldName = "passwordVerification"
-)
+
 public class RegistrationForm {
 
     public static final String FIELD_NAME_EMAIL = "email";
@@ -32,12 +23,9 @@ public class RegistrationForm {
 
     @NotEmpty
     @Size(max = 100)
-    private String firstName;
+    private String userName;
 
-    @NotEmpty
-    @Size(max = 100)
-    private String lastName;
-
+    
     private String password;
 
     private String passwordVerification;
@@ -64,20 +52,12 @@ public class RegistrationForm {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -108,8 +88,7 @@ public class RegistrationForm {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("email", email)
-                .append("firstName", firstName)
-                .append("lastName", lastName)
+                .append("userName", userName)
                 .append("signInProvider", signInProvider)
                 .toString();
     }

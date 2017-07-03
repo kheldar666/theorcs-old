@@ -78,7 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity
         	.authorizeRequests()
         		.expressionHandler(securityExpressionHandler())
-	        	.antMatchers("/*","/connect/**","/h2-console/**")
+	        	.antMatchers("/*","/connect/**","/h2-console/**","/manager/login/*")
 	        		.permitAll()
 	        	.anyRequest()
 	        		.hasRole("USER")

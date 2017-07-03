@@ -45,7 +45,7 @@ public class LoginController {
     @RequestMapping(value = "/manager/login", method = RequestMethod.GET)
     String index(WebRequest request, Model model) {
     	if(logger.isDebugEnabled()) {
-    		logger.debug("Rendering the Login/registration page");
+    		logger.debug("Rendering the Login/Registration page");
     	}
     	
     	Connection<?> connection = providerSignInUtils.getConnectionFromSession(request);
@@ -61,8 +61,8 @@ public class LoginController {
         return VIEW_NAME_LOGIN_FORM;
     }
     
-    @RequestMapping(value ="/user/register", method = RequestMethod.POST)
-    public String registerUserAccount(@Valid @ModelAttribute("user") RegistrationForm userAccountData,
+    @RequestMapping(value ="/manager/login/register", method = RequestMethod.POST)
+    public String registerUserAccount(@Valid @ModelAttribute(MODEL_NAME_REGISTRATION_DTO) RegistrationForm userAccountData,
                                       BindingResult result,
                                       WebRequest request) throws DuplicateEmailException {
     	if(logger.isDebugEnabled()) {
@@ -112,8 +112,7 @@ public class LoginController {
         if (connection != null) {
             UserProfile socialMediaProfile = connection.fetchUserProfile();
             dto.setEmail(socialMediaProfile.getEmail());
-            dto.setFirstName(socialMediaProfile.getFirstName());
-            dto.setLastName(socialMediaProfile.getLastName());
+            dto.setUserName(socialMediaProfile.getUsername());
 
             ConnectionKey providerKey = connection.getKey();
             dto.setSignInProvider(SocialMediaService.valueOf(providerKey.getProviderId().toUpperCase()));
@@ -127,13 +126,16 @@ public class LoginController {
         User registered = userService.createNew();
 
         	registered.setEmail(userAccountData.getEmail());
-        	//registered.setUsername(userAccountData.);
+        	registered.setUsername(userAccountData.getUserName());
+        	registered.setPassword(userAccountData.getPassword());
         
         try {
         	registered = userService.save(registered);
         }
         catch (Exception ex) {
-            logger.debug("An email address: {} exists.", userAccountData.getEmail());
+        	logger.error("An error has occured - {}", ex.getCause());
+            
+            logger.error("An email address: {} exists.", userAccountData.getEmail());
             addFieldError(
                     MODEL_NAME_REGISTRATION_DTO,
                     RegistrationForm.FIELD_NAME_EMAIL,
