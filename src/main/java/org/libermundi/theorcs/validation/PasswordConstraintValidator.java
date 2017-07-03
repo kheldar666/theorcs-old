@@ -31,13 +31,16 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
            new WhitespaceRule()));
  
         RuleResult result = validator.validate(new PasswordData(password));
+        
         if (result.isValid()) {
             return true;
         }
+        
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(
           Joiner.on("n").join(validator.getMessages(result)))
           .addConstraintViolation();
+        
         return false;
 	}
 

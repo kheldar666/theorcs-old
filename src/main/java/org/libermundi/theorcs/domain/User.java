@@ -72,7 +72,7 @@ public class User extends UidUserStatefulEntity implements UserDetails, SocialUs
 	
 	private static final long serialVersionUID = 984592116709403247L;
 
-	private Gender gender=Gender.BOTH;
+	private Gender gender=Gender.DONTSAY;
 	private Salutation salutation=Salutation.NONE;
 	private String firstName;
 	private String lastName;

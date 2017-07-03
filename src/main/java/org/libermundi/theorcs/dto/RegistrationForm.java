@@ -8,10 +8,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.libermundi.theorcs.domain.SocialMediaService;
 import org.libermundi.theorcs.validation.ValidPassword;
 
-/**
- * @author Petri Kainulainen
- */
-
 public class RegistrationForm {
 
     public static final String FIELD_NAME_EMAIL = "email";
@@ -25,10 +21,8 @@ public class RegistrationForm {
     @Size(max = 100)
     private String userName;
 
-    
+    @ValidPassword
     private String password;
-
-    private String passwordVerification;
 
     private SocialMediaService signInProvider;
 
@@ -66,14 +60,6 @@ public class RegistrationForm {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPasswordVerification() {
-        return passwordVerification;
-    }
-
-    public void setPasswordVerification(String passwordVerification) {
-        this.passwordVerification = passwordVerification;
     }
 
     public SocialMediaService getSignInProvider() {

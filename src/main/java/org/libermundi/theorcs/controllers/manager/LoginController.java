@@ -133,8 +133,6 @@ public class LoginController {
         	registered = userService.save(registered);
         }
         catch (Exception ex) {
-        	logger.error("An error has occured - {}", ex.getCause());
-            
             logger.error("An email address: {} exists.", userAccountData.getEmail());
             addFieldError(
                     MODEL_NAME_REGISTRATION_DTO,
