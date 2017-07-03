@@ -30,6 +30,8 @@ public class LoginController {
 	
 	public static final String VIEW_NAME_LOGIN_FORM = "manager/login";
 	
+	public static final String REDIRECT_NAME_REGISTER_FORM = "redirect:/manager/login#signup";
+	
 	public static final String MODEL_NAME_REGISTRATION_DTO = "user";
 	
 	@Autowired
@@ -64,7 +66,7 @@ public class LoginController {
     @RequestMapping(value ="/manager/login/register", method = RequestMethod.POST)
     public String registerUserAccount(@Valid @ModelAttribute(MODEL_NAME_REGISTRATION_DTO) RegistrationForm userAccountData,
                                       BindingResult result,
-                                      WebRequest request) throws DuplicateEmailException {
+                                      WebRequest request) {
     	if(logger.isDebugEnabled()) {
     		logger.debug("Registering user account with information: {}", userAccountData);
     	}
@@ -73,7 +75,7 @@ public class LoginController {
     		if(logger.isDebugEnabled()) {
     			logger.debug("Validation errors found. Rendering form view.");
     		}
-            return VIEW_NAME_LOGIN_FORM;
+            return REDIRECT_NAME_REGISTER_FORM;
         }
 
     	if(logger.isDebugEnabled()) {
@@ -84,8 +86,8 @@ public class LoginController {
 
         //If email address was already found from the database, render the form view.
         if (registered == null) {
-            logger.debug("An email address was found from the database. Rendering form view.");
-            return VIEW_NAME_LOGIN_FORM;
+            logger.error("An email address was found from the database. Rendering form view.");
+            return REDIRECT_NAME_REGISTER_FORM;
         }
 
         if(logger.isDebugEnabled()) {

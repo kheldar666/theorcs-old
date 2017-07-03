@@ -91,6 +91,9 @@
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
+          	<div th:if="${error}">
+			    <label style="color:red">Invalid username and password.</label>
+			</div>
             <form th:action="@{/manager/login/register}" th:object="${user}" method="post">
               <h1>Create Account</h1>
               <div>
