@@ -4,6 +4,8 @@ import javax.sql.DataSource;
 import org.libermundi.theorcs.repositories.RememberMeTokenRepository;
 import org.libermundi.theorcs.repositories.impl.PersistentTokenRepositoryImpl;
 import org.libermundi.theorcs.security.impl.DatabaseSocialConfigurer;
+import org.libermundi.theorcs.services.impl.FacebookConnectionSignup;
+import org.libermundi.theorcs.services.impl.FacebookSignInAdapter;
 import org.libermundi.theorcs.services.impl.SocialUserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,8 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -51,6 +55,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+    private FacebookConnectionSignup facebookConnectionSignup;
+	
+    @Autowired
+    private UsersConnectionRepository usersConnectionRepository;
+    
+    @Autowired
+    private ConnectionFactoryLocator connectionFactoryLocator;
 
 	@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
@@ -78,7 +91,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity
         	.authorizeRequests()
         		.expressionHandler(securityExpressionHandler())
-	        	.antMatchers("/*","/connect/**","/h2-console/**","/manager/login/*")
+	        	.antMatchers("/*","/connect/**","/signin/**","/h2-console/**","/manager/login/*")
 	        		.permitAll()
 	        	.anyRequest()
 	        		.hasRole("USER")
@@ -181,6 +194,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator,UsersConnectionRepository connectionRepository) {
 		return new ProviderSignInUtils(connectionFactoryLocator, connectionRepository);
 	}
+	
+	@Bean
+    public ProviderSignInController providerSignInController() {
+        ((JdbcUsersConnectionRepository) usersConnectionRepository)
+          .setConnectionSignUp(facebookConnectionSignup);
+         
+        return new ProviderSignInController(
+          connectionFactoryLocator, 
+          usersConnectionRepository, 
+          new FacebookSignInAdapter());
+    }
 	
 	private SecurityExpressionHandler<FilterInvocation> securityExpressionHandler() {
 	    DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();

@@ -80,10 +80,11 @@
             </form>
           </section>
           <section>
-          	<form th:action="@{/connect/facebook}" method="post">
+          	<form th:action="@{/signin/facebook}" method="post">
+          		<input type="hidden" name="scope" value="public_profile,email" />
           		<button class="btn btn-block btn-social btn-facebook">
 					<i class="fa fa-facebook"></i>
-					Sign in with Facebook
+					Sign in with Facebook (POST)
 				</button>
 			</form>
           </section>
@@ -91,11 +92,11 @@
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-          	<div th:if="${error}">
-			    <label style="color:red">Invalid username and password.</label>
-			</div>
             <form th:action="@{/manager/login/register}" th:object="${user}" method="post">
               <h1>Create Account</h1>
+              <ul>
+				  <li th:each="err : ${#fields.errors('all')}" th:text="${err}" />
+			  </ul>
               <div>
                 <input type="text" th:field="*{userName}" class="form-control" placeholder="Username" required="true" />
               </div>

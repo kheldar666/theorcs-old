@@ -4,7 +4,6 @@ import javax.validation.Valid;
 import org.libermundi.theorcs.domain.SocialMediaService;
 import org.libermundi.theorcs.domain.User;
 import org.libermundi.theorcs.dto.RegistrationForm;
-import org.libermundi.theorcs.exceptions.DuplicateEmailException;
 import org.libermundi.theorcs.services.SecurityService;
 import org.libermundi.theorcs.services.UserService;
 import org.slf4j.Logger;
