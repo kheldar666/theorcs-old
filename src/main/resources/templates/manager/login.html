@@ -119,10 +119,13 @@
 
                 <div class="clearfix"></div>
 				<p>or</p>
-				<a class="btn btn-block btn-social btn-facebook" th:href="@{/connect/facebook}">
-					<i class="fa fa-facebook"></i>
-					Sign in with Facebook
-				</a>
+		          	<form th:action="@{/connect/facebook}" method="post">
+		          		<input type="hidden" name="scope" value="public_profile,email" />
+		          		<button class="btn btn-block btn-social btn-facebook">
+							<i class="fa fa-facebook"></i>
+							Sign in with Facebook (POST)
+						</button>
+					</form>
                 <div>
                   <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
                   <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>

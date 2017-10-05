@@ -27,9 +27,9 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
         
         user.setUsername(fbUser.getId());
         user.setPassword(UUID.randomUUID().toString());
-        user.setNickName(fbUser.getId());
         user.setFirstName(fbUser.getFirstName());
         user.setLastName(fbUser.getLastName());
+        user.setNickName(user.getFullName());
         user.setEmail(fbUser.getEmail());
         user.setDeleted(Boolean.FALSE);
         user.setEnabled(Boolean.TRUE);
@@ -38,6 +38,7 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
         user.setCredentialsNonExpired(Boolean.TRUE);
 
         userService.save(user);
+        
         return user.getUsername();
     }
 }

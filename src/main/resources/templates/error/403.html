@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+	<title th:text="#{error.page.404.title}">Page Title</title>
+	<!--/*/ <th:block th:include="/fragments/grayscale/inc_header :: head"></th:block> /*/-->
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <!--/*/ <th:block th:include="/fragments/grayscale/inc_menu :: menu"></th:block> /*/-->
+
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="brand-heading" th:text="#{error.page.404.heading}">Oops !</h1>
+                        <p class="intro-text" th:text="#{error.page.404.intro}">Page Not Found...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+	<!--/*/ <th:block th:include="/fragments/grayscale/inc_footer :: footer"></th:block> /*/-->
+</body>
+
+</html>
