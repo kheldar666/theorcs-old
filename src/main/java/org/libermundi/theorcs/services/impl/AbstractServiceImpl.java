@@ -7,6 +7,7 @@ import org.libermundi.theorcs.services.base.Service;
 import org.libermundi.theorcs.utils.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class AbstractServiceImpl<T extends Identifiable<I>,I extends Serializable> implements Service<T, I> {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractServiceImpl.class);
 	
-	protected CrudRepository<T,I> repository;
+	protected SimpleJpaRepository<T,I> repository;
 	
 	/*
 	 * (non-Javadoc)
 	 * @see org.libermundi.theorcs.services.base.Service#getRepository()
 	 */
 	@Override
-	public CrudRepository<T,I> getRepository() {
+	public SimpleJpaRepository<T,I> getRepository() {
 		return this.repository;
 	}
 
@@ -38,7 +39,7 @@ public abstract class AbstractServiceImpl<T extends Identifiable<I>,I extends Se
 	 * @see org.libermundi.theorcs.services.base.Service#setDao(org.libermundi.theorcs.repositories.base.BaseRepository)
 	 */
 	@Override
-	public void setRepository(CrudRepository<T,I> repository) {
+	public void setRepository(SimpleJpaRepository<T,I> repository) {
 		if(logger.isDebugEnabled()) {
 			logger.debug("Set Repository : " + repository);
 		}
@@ -54,7 +55,7 @@ public abstract class AbstractServiceImpl<T extends Identifiable<I>,I extends Se
 		if(logger.isDebugEnabled()) {
 			logger.debug("Delete Object with ID : " + id);
 		}
-		this.repository.delete(id);
+		this.repository.delete((T) id);
 	}
 	
 	/*

@@ -33,16 +33,18 @@ public class LoginController {
 	
 	public static final String MODEL_NAME_REGISTRATION_DTO = "user";
 	
-	@Autowired
 	private ProviderSignInUtils providerSignInUtils;
 	
-	@Autowired
 	private SecurityService securityService;
-	
-	@Autowired
+
 	private UserService userService;
-	
-	
+
+    public LoginController(ProviderSignInUtils providerSignInUtils, SecurityService securityService, UserService userService) {
+        this.providerSignInUtils = providerSignInUtils;
+        this.securityService = securityService;
+        this.userService = userService;
+    }
+
     @RequestMapping(value = "/manager/login", method = RequestMethod.GET)
     String index(WebRequest request, Model model) {
     	if(logger.isDebugEnabled()) {

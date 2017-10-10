@@ -1,7 +1,7 @@
 package org.libermundi.theorcs.controllers;
 import java.util.Calendar;
 
-import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

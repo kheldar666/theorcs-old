@@ -16,9 +16,9 @@ public class BasicEntity extends NumericIdEntity implements Undeletable {
     
     private boolean _deleted=Boolean.FALSE;
     
+
     /*
-     * (non-Javadoc)
-     * @see org.libermundi.frostgrave.domain.base.Undeletable#isDeleted()
+     * @see
      */
     @Override
     @Column(name = Undeletable.PROP_DELETED)

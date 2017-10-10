@@ -10,6 +10,7 @@ import org.libermundi.theorcs.services.impl.SocialUserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,20 +51,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
 
-	@Autowired
 	private RememberMeServices rememberMeServices;
 	
-	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	@Autowired
     private FacebookConnectionSignup facebookConnectionSignup;
 	
-    @Autowired
     private UsersConnectionRepository usersConnectionRepository;
     
-    @Autowired
     private ConnectionFactoryLocator connectionFactoryLocator;
+
+	public SecurityConfiguration(RememberMeServices rememberMeServices, @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService,
+								 FacebookConnectionSignup facebookConnectionSignup,
+								 UsersConnectionRepository usersConnectionRepository,
+								 ConnectionFactoryLocator connectionFactoryLocator) {
+		this.rememberMeServices = rememberMeServices;
+		this.userDetailsService = userDetailsService;
+		this.facebookConnectionSignup = facebookConnectionSignup;
+		this.usersConnectionRepository = usersConnectionRepository;
+		this.connectionFactoryLocator = connectionFactoryLocator;
+	}
 
 	@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
@@ -146,13 +153,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public RememberMeServices persistentTokenBasedRememberMeServices(UserDetailsService userDetailsService, RememberMeTokenRepository rememberMeTokenRepository) {
+	public RememberMeServices persistentTokenBasedRememberMeServices(
+			@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService,
+			RememberMeTokenRepository rememberMeTokenRepository) {
+
 		logger.info("Creating RememberMeServices Bean with Key : " + rememberMeKey);
 		return new PersistentTokenBasedRememberMeServices(
 				rememberMeKey,
 				userDetailsService,
 				new PersistentTokenRepositoryImpl(rememberMeTokenRepository)
-			);
+		);
 	}
 	
 	@Bean
@@ -179,7 +189,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 	@Bean
-	public DatabaseSocialConfigurer databaseSocialConfigurer(DataSource dataSource) {
+	public DatabaseSocialConfigurer databaseSocialConfigurer(@Qualifier("dataSource") DataSource dataSource) {
 		return new DatabaseSocialConfigurer(dataSource);
 	}
 	
@@ -197,7 +207,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Bean
     public ProviderSignInController providerSignInController() {
-        ((JdbcUsersConnectionRepository) usersConnectionRepository)
+        usersConnectionRepository
           .setConnectionSignUp(facebookConnectionSignup);
          
         return new ProviderSignInController(

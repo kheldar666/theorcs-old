@@ -20,6 +20,6 @@ package org.libermundi.theorcs.domain.base;
  *
  */
 public interface Account {
-	public String getUsername();
-	public String getEmail();
+	String getUsername();
+	String getEmail();
 }
